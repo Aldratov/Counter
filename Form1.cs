@@ -78,7 +78,6 @@ namespace Counter_v1
         private void bt_count_Click(object sender, EventArgs e)
         {
             countwork();
-
         }
 
         //изменение даты
@@ -110,7 +109,11 @@ namespace Counter_v1
                 }
                 var file2 = dirInfo.GetFiles().Where(d =>d.Name.Contains("system.log")).First();
                 File.Copy(file2.FullName, dir1 + "\\" + file2.Name, true);
-                MessageBox.Show("Файлы загружены");
+                DialogResult result = MessageBox.Show("Файлы загружены,\r\n создать отчёт?", "Готово",MessageBoxButtons.OKCancel,MessageBoxIcon.Question);
+                if(result == DialogResult.OK)
+                {
+                    countwork();
+                }
             }
             catch (Exception ex)
             {
@@ -325,7 +328,7 @@ namespace Counter_v1
                     foreach (var progr in pName)
                     {
                         sb.Append("Время загрузки: " + progr.Key + "\r\n");
-                        sb.Append("Имя программы: " + progr.Value + "\r\n" + "\r\n");
+                        sb.Append("Имя программы: " +"\r\n" + progr.Value + "\r\n" + "\r\n");
                     }
                 }else
                 {
@@ -398,9 +401,9 @@ namespace Counter_v1
                 {
                     if (s.Contains(dateTimePicker1.Value.ToString("yyyy-MM-dd")))
                     {
-                        if (s.Contains("Load File"))
+                        if (s.Contains("Load File")&& s.Contains(".spp")) //содержит инфо о файле .spp
                         {
-                            progName = s.Substring(s.LastIndexOf("\\") + 1, (s.IndexOf(".spp") - s.LastIndexOf("\\")));
+                            progName = s.Substring(s.LastIndexOf("\\") + 1, (s.IndexOf(".spp")-1 - s.LastIndexOf("\\")));
                             progTime = s.Substring(11, 8);
                             pName.Add(progTime, progName);
 

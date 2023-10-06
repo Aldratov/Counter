@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
@@ -21,8 +22,8 @@ namespace Counter_v1
 
         // string dir1 = "C:\\placeALLSetup2016\\INT";
 
-        string dir1 = @"D:\8_temp\123";
-        string reportsPath = @"D:\8_temp\123\";
+        string dir1 = @"D:\8_temp\Fritsch_log";
+        string reportsPath = @"D:\8_temp\Fritsch_log\reports";
         string fitschDir = @"\\placeall-pc\INT";
 
 
@@ -31,8 +32,8 @@ namespace Counter_v1
         string startprog = "StartPlc";
         string stopprog = "PlcComplete";
         //string progName = "";
-        Dictionary<string, string> pName = new Dictionary<string,string>();
-        
+        Dictionary<string, string> pName = new Dictionary<string, string>();
+
 
 
         //класс для работы с одним запуском
@@ -42,7 +43,7 @@ namespace Counter_v1
             public DateTime end { get; set; }
             public TimeSpan duration { get; set; }
             public TimeSpan stop { get; set; }
-            public string logName{ get; set; }
+            public string logName { get; set; }
 
         }
 
@@ -52,7 +53,7 @@ namespace Counter_v1
             InitializeComponent();
             //формат выбора дат
             dateTimePicker1.Format = DateTimePickerFormat.Short;
-
+            
         }
 
         //выбор папки
@@ -87,11 +88,13 @@ namespace Counter_v1
         }
 
 
-        // при загрузке формы загрузить путь
+        // при загрузке формы загрузить путь проверить изменеия в файле
         private void Form1_Load(object sender, EventArgs e)
         {
             tB_currentPath.Text = dir1;
             tB_path.Text = reportsPath;
+            chek_changes();
+
         }
 
 
@@ -103,14 +106,14 @@ namespace Counter_v1
             {
 
                 DirectoryInfo dirInfo = new DirectoryInfo(fitschDir);
-                foreach (FileInfo file in dirInfo.GetFiles().Where(d=>d.LastWriteTime.Date == dt1 && d.Name.Contains("prod")))
+                foreach (FileInfo file in dirInfo.GetFiles().Where(d => d.LastWriteTime.Date == dt1 && d.Name.Contains("prod")))
                 {
                     File.Copy(file.FullName, dir1 + "\\" + file.Name, true);
                 }
-                var file2 = dirInfo.GetFiles().Where(d =>d.Name.Contains("system.log")).First();
+                var file2 = dirInfo.GetFiles().Where(d => d.Name.Contains("system.log")).First();
                 File.Copy(file2.FullName, dir1 + "\\" + file2.Name, true);
-                DialogResult result = MessageBox.Show("Файлы загружены,\r\n создать отчёт?", "Готово",MessageBoxButtons.OKCancel,MessageBoxIcon.Question);
-                if(result == DialogResult.OK)
+                DialogResult result = MessageBox.Show("Файлы загружены,\r\n создать отчёт?", "Готово", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (result == DialogResult.OK)
                 {
                     countwork();
                 }
@@ -132,14 +135,12 @@ namespace Counter_v1
         //функция посчёта
         private void countwork()
         {
-           
+
             //очистить словарь
             pName.Clear();
-            
-            
+
             //clear textbox
             tB_out.Text = "";
-
 
             //get date
             dt1 = dateTimePicker1.Value.Date;// получаем только дату
@@ -170,7 +171,7 @@ namespace Counter_v1
             TimeSpan allDuration = new TimeSpan();//общее время запусков
             TimeSpan allStop = new TimeSpan(); //общее время простоя
             DateTime laststop = new DateTime(); // остановка предыдущей программы
-            TimeSpan maxStopDuration= new TimeSpan();
+            TimeSpan maxStopDuration = new TimeSpan();
             maxStopDuration = TimeSpan.FromMinutes(3);
 
 
@@ -204,12 +205,12 @@ namespace Counter_v1
                         w1.end = DateTime.Parse(s.Substring(0, 19));
                         // work[i].stop = DateTime.Parse(s.Substring(0, 19));
                     }
-                                      
+
                 }
 
                 if (w1.end == DateTime.MinValue) //Minvale как null  у DateTime
                 {
-                    w1.end = DateTime.Parse(lines[lines.Length - 1].Substring(0,19));
+                    w1.end = DateTime.Parse(lines[lines.Length - 1].Substring(0, 19));
                 }
 
                 if ((w1.start.Date == dt1.Date) && (w1.end.Date == dt1.Date))
@@ -265,17 +266,17 @@ namespace Counter_v1
 
                 if (j != 1)
                 {
-                   
+
                     w.stop = w.start.Subtract(laststop);
                     string s = w.stop > maxStopDuration ? "     ###" : "";
                     sb.Append("------------------------------------------------------------------------------------------\r\n");
-                    sb.Append(" Простой" + "\t" + w.stop.ToString() + s +"\r\n");
+                    sb.Append(" Простой" + "\t" + w.stop.ToString() + s + "\r\n");
                     sb.Append("------------------------------------------------------------------------------------------\r\n");
                     allStop += w.stop;
                 }
 
                 sb.Append("\t" + "Запуск №" + j.ToString() + "\r\n" + "\r\n");
-               // sb.Append(" Файл" + "\t" + "\t" + w.logName + "\r\n" + "\r\n");
+                // sb.Append(" Файл" + "\t" + "\t" + w.logName + "\r\n" + "\r\n");
 
                 sb.Append(" Старт" + "\t" + "\t" + w.start.ToLongTimeString() + "\r\n");
                 sb.Append(" Остановка" + "\t" + w.end.ToLongTimeString() + "\r\n" + "\r\n");
@@ -293,17 +294,17 @@ namespace Counter_v1
             //больше среднего запусков
 
             double everWork = allDuration.TotalMilliseconds / j;//среднее время запуска
-            int aboveEverwor=0;// количество выше среднего
+            int aboveEverwor = 0;// количество выше среднего
             foreach (Work w in works)
             {
-                if (w.duration.TotalMilliseconds>everWork)
+                if (w.duration.TotalMilliseconds > everWork)
                 {
                     aboveEverwor++;
                 }
             }
 
 
-                if (j - 1 == 0)
+            if (j - 1 == 0)
             {
                 sb.Append("=============================================" + "\r\n");
                 sb.Append("\t" + "     НЕТ ДАННЫХ НА ЭТУ ДАТУ" + "\r\n");
@@ -312,12 +313,12 @@ namespace Counter_v1
             else
             {
                 TimeSpan res;
-                res = TimeSpan.FromMilliseconds(allStop.TotalMilliseconds / j );
+                res = TimeSpan.FromMilliseconds(allStop.TotalMilliseconds / j);
                 sb.Append("=============================================" + "\r\n");
                 //tB_out.Text += " Плата " + tB_in.Text + "\r\n";
                 sb.Append(" Количество запусков:" + "\t" + j.ToString() + "\r\n");
                 TimeSpan everTime = TimeSpan.FromMilliseconds(everWork);
-                sb.Append(" Запусков > "+ everTime.ToString(@"mm\:ss") +" среднего " +"\t" + aboveEverwor.ToString() + "\r\n");
+                sb.Append(" Запусков > " + everTime.ToString(@"mm\:ss") + " среднего " + "\t" + aboveEverwor.ToString() + "\r\n");
                 sb.Append(" Время работы всей:" + "\t" + allDuration.ToString() + "\r\n");
                 sb.Append(" Общее время простоя:" + "\t" + allStop.ToString() + "\r\n" + "\r\n");
                 sb.Append(" Среднее время простоя:" + "\t" + res.ToString(@"mm\:ss") + "\r\n" + "\r\n"); // формат вывода timespan                
@@ -328,16 +329,17 @@ namespace Counter_v1
                     foreach (var progr in pName)
                     {
                         sb.Append("Время загрузки: " + progr.Key + "\r\n");
-                        sb.Append("Имя программы: " +"\r\n" + progr.Value + "\r\n" + "\r\n");
+                        sb.Append("Имя программы: " + "\r\n" + progr.Value + "\r\n" + "\r\n");
                     }
-                }else
+                }
+                else
                 {
-                    sb.Append("Файл system.log не найден!"+"\r\n");
+                    sb.Append("Файл system.log не найден!" + "\r\n");
                 }
 
 
             }
-            tB_out.Text=sb.ToString();
+            tB_out.Text = sb.ToString();
 
 
             //прокрутка вниз
@@ -365,7 +367,7 @@ namespace Counter_v1
             // обработчик события печати
             pD.PrintPage += PrintPageHandler;
             pD.PrinterSettings.PrintRange = PrintRange.AllPages;
-            
+
             // диалог настройки печати
             PrintDialog printDialog = new PrintDialog();
 
@@ -385,12 +387,43 @@ namespace Counter_v1
             e.Graphics.DrawString(tB_out.Text, new Font("Arial", 6), Brushes.Black, 0, 0);
         }
 
-        //получить имя программ
 
+        //обновить логи
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+            List<string> logs = new List<string>() { "system.log", "log.log", "motion.log", "dlgchange.log", "cals.log" };
+            DirectoryInfo dirInfo = new DirectoryInfo(fitschDir);
+
+            foreach (var log in logs)
+            {
+                var file3 = dirInfo.GetFiles().Where(d => d.Name.Contains(log)).First();
+                File.Copy(file3.FullName, dir1 + "\\" + file3.Name, true);
+            }
+
+        }
+
+
+        //открыть файлы логов
+        private void bt_dlg_Click(object sender, EventArgs e)
+        {
+            Button b = sender as Button;
+            try
+            {
+                Process.Start(@"D:\8_temp\Fritsch_log\" + b.Tag);
+            }
+            catch
+            {
+                MessageBox.Show("Ошибвка при обращении к файлу");
+            }
+
+        }
+
+        //получить имя программ
         private void printWork()
         {
-            
-            string logpath = reportsPath + "system.log";
+
+            string logpath = dir1 + "\\" + "system.log";
             if (File.Exists(logpath))
             {
                 string[] lines = File.ReadAllLines(logpath);
@@ -401,9 +434,9 @@ namespace Counter_v1
                 {
                     if (s.Contains(dateTimePicker1.Value.ToString("yyyy-MM-dd")))
                     {
-                        if (s.Contains("Load File")&& s.Contains(".spp")) //содержит инфо о файле .spp
+                        if (s.Contains("Load File") && s.Contains(".spp")) //содержит инфо о файле .spp
                         {
-                            progName = s.Substring(s.LastIndexOf("\\") + 1, (s.IndexOf(".spp")-1 - s.LastIndexOf("\\")));
+                            progName = s.Substring(s.LastIndexOf("\\") + 1, (s.IndexOf(".spp") - 1 - s.LastIndexOf("\\")));
                             progTime = s.Substring(11, 8);
                             pName.Add(progTime, progName);
 
@@ -412,5 +445,27 @@ namespace Counter_v1
                 }
             }
         }
+
+        //обновить логи
+        private void chek_changes()
+        {
+
+            DirectoryInfo dirInfo = new DirectoryInfo(fitschDir);
+            var file3 = dirInfo.GetFiles().Where(d => d.Name.Contains("dlgchange.log")).First();
+            DateTime dt = file3.LastWriteTime;
+
+            var dt_last = Properties.Settings.Default.lastChange;
+            if (dt.Date != dt_last.Date)
+            {
+                bt_dlg.BackColor = Color.IndianRed;
+                MessageBox.Show(dt.ToString() + "   " + Properties.Settings.Default.lastChange.ToString());
+            }
+
+            Properties.Settings.Default.lastChange = dt;
+            Properties.Settings.Default.Save();
+            //MessageBox.Show(dt.ToString()+"   "+ Properties.Settings.Default.lastChange.ToString());
+        }
+
     }
 }
+

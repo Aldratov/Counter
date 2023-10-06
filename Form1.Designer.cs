@@ -45,6 +45,13 @@ namespace Counter_v1
             this.tB_currentPath = new System.Windows.Forms.TextBox();
             this.bt_print = new System.Windows.Forms.Button();
             this.bt_plan = new System.Windows.Forms.Button();
+            this.bt_dlg = new System.Windows.Forms.Button();
+            this.bt_motion = new System.Windows.Forms.Button();
+            this.bt_log = new System.Windows.Forms.Button();
+            this.bt_system = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.bt_cals = new System.Windows.Forms.Button();
+            this.bt_refresh = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // bt_count
@@ -184,19 +191,108 @@ namespace Counter_v1
             this.bt_plan.TabIndex = 8;
             this.bt_plan.Text = "Plan";
             this.bt_plan.UseVisualStyleBackColor = true;
-            this.bt_plan.Click += new System.EventHandler(this.bt_print_Click);
+            // 
+            // bt_dlg
+            // 
+            this.bt_dlg.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.bt_dlg.Cursor = System.Windows.Forms.Cursors.Default;
+            this.bt_dlg.Location = new System.Drawing.Point(312, 136);
+            this.bt_dlg.Name = "bt_dlg";
+            this.bt_dlg.Size = new System.Drawing.Size(91, 23);
+            this.bt_dlg.TabIndex = 8;
+            this.bt_dlg.Tag = "dlgchange.log";
+            this.bt_dlg.Text = "dlgchange";
+            this.bt_dlg.UseVisualStyleBackColor = false;
+            this.bt_dlg.Click += new System.EventHandler(this.bt_dlg_Click);
+            // 
+            // bt_motion
+            // 
+            this.bt_motion.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.bt_motion.Location = new System.Drawing.Point(312, 165);
+            this.bt_motion.Name = "bt_motion";
+            this.bt_motion.Size = new System.Drawing.Size(91, 23);
+            this.bt_motion.TabIndex = 8;
+            this.bt_motion.Tag = "motion.log";
+            this.bt_motion.Text = "motion";
+            this.bt_motion.UseVisualStyleBackColor = false;
+            this.bt_motion.Click += new System.EventHandler(this.bt_dlg_Click);
+            // 
+            // bt_log
+            // 
+            this.bt_log.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.bt_log.Location = new System.Drawing.Point(312, 194);
+            this.bt_log.Name = "bt_log";
+            this.bt_log.Size = new System.Drawing.Size(91, 23);
+            this.bt_log.TabIndex = 8;
+            this.bt_log.Tag = "log.log";
+            this.bt_log.Text = "log";
+            this.bt_log.UseVisualStyleBackColor = false;
+            this.bt_log.Click += new System.EventHandler(this.bt_dlg_Click);
+            // 
+            // bt_system
+            // 
+            this.bt_system.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.bt_system.Location = new System.Drawing.Point(312, 223);
+            this.bt_system.Name = "bt_system";
+            this.bt_system.Size = new System.Drawing.Size(91, 23);
+            this.bt_system.TabIndex = 8;
+            this.bt_system.Tag = "system.log";
+            this.bt_system.Text = "system";
+            this.bt_system.UseVisualStyleBackColor = false;
+            this.bt_system.Click += new System.EventHandler(this.bt_dlg_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(336, 117);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(47, 16);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "LOGS";
+            // 
+            // bt_cals
+            // 
+            this.bt_cals.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.bt_cals.Location = new System.Drawing.Point(312, 252);
+            this.bt_cals.Name = "bt_cals";
+            this.bt_cals.Size = new System.Drawing.Size(91, 23);
+            this.bt_cals.TabIndex = 8;
+            this.bt_cals.Tag = "cals.log";
+            this.bt_cals.Text = "cals";
+            this.bt_cals.UseVisualStyleBackColor = false;
+            this.bt_cals.Click += new System.EventHandler(this.bt_dlg_Click);
+            // 
+            // bt_refresh
+            // 
+            this.bt_refresh.BackColor = System.Drawing.Color.MediumAquamarine;
+            this.bt_refresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bt_refresh.Location = new System.Drawing.Point(312, 281);
+            this.bt_refresh.Name = "bt_refresh";
+            this.bt_refresh.Size = new System.Drawing.Size(91, 41);
+            this.bt_refresh.TabIndex = 8;
+            this.bt_refresh.Text = "Refresh";
+            this.bt_refresh.UseVisualStyleBackColor = false;
+            this.bt_refresh.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(317, 737);
+            this.ClientSize = new System.Drawing.Size(406, 733);
+            this.Controls.Add(this.bt_refresh);
+            this.Controls.Add(this.bt_cals);
+            this.Controls.Add(this.bt_system);
+            this.Controls.Add(this.bt_log);
+            this.Controls.Add(this.bt_motion);
+            this.Controls.Add(this.bt_dlg);
             this.Controls.Add(this.bt_plan);
             this.Controls.Add(this.bt_print);
             this.Controls.Add(this.bt_load);
             this.Controls.Add(this.bt_folder);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lb_path);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cB_report);
@@ -235,6 +331,13 @@ namespace Counter_v1
         private System.Windows.Forms.TextBox tB_currentPath;
         private System.Windows.Forms.Button bt_print;
         private System.Windows.Forms.Button bt_plan;
+        private System.Windows.Forms.Button bt_dlg;
+        private System.Windows.Forms.Button bt_motion;
+        private System.Windows.Forms.Button bt_log;
+        private System.Windows.Forms.Button bt_system;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button bt_cals;
+        private System.Windows.Forms.Button bt_refresh;
     }
 }
 

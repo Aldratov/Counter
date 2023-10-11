@@ -391,7 +391,7 @@ namespace Counter_v1
         //обновить логи
         private void button1_Click_1(object sender, EventArgs e)
         {
-
+            Cursor = Cursors.WaitCursor; //установить курсор ожидания
             List<string> logs = new List<string>() { "system.log", "log.log", "motion.log", "dlgchange.log", "cals.log" };
             DirectoryInfo dirInfo = new DirectoryInfo(fitschDir);
 
@@ -401,6 +401,8 @@ namespace Counter_v1
                 File.Copy(file3.FullName, dir1 + "\\" + file3.Name, true);
             }
 
+            MessageBox.Show("Файлы обновлены");
+            Cursor = Cursors.Default;//вернуть курсор по умолчанию
         }
 
 
@@ -444,6 +446,25 @@ namespace Counter_v1
                     }
                 }
             }
+        }
+
+
+        //удалить данные программ
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor; //установить курсор ожидания
+            DirectoryInfo dirInfo = new DirectoryInfo(dir1);
+
+            foreach (FileInfo file in dirInfo.GetFiles())
+            {
+                
+                if(file.Name.StartsWith("prod"))
+                {
+                    file.Delete();
+                }
+                               
+            }
+            Cursor = Cursors.Default;//вернуть курсор по умолчанию
         }
 
         //обновить логи

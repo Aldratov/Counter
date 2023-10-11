@@ -52,6 +52,7 @@ namespace Counter_v1
             this.label4 = new System.Windows.Forms.Label();
             this.bt_cals = new System.Windows.Forms.Button();
             this.bt_refresh = new System.Windows.Forms.Button();
+            this.bt_delData = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // bt_count
@@ -148,7 +149,7 @@ namespace Counter_v1
             // 
             // bt_load
             // 
-            this.bt_load.Location = new System.Drawing.Point(83, 701);
+            this.bt_load.Location = new System.Drawing.Point(83, 702);
             this.bt_load.Name = "bt_load";
             this.bt_load.Size = new System.Drawing.Size(81, 25);
             this.bt_load.TabIndex = 7;
@@ -175,7 +176,7 @@ namespace Counter_v1
             // 
             // bt_print
             // 
-            this.bt_print.Location = new System.Drawing.Point(170, 702);
+            this.bt_print.Location = new System.Drawing.Point(257, 703);
             this.bt_print.Name = "bt_print";
             this.bt_print.Size = new System.Drawing.Size(64, 23);
             this.bt_print.TabIndex = 8;
@@ -185,7 +186,7 @@ namespace Counter_v1
             // 
             // bt_plan
             // 
-            this.bt_plan.Location = new System.Drawing.Point(242, 703);
+            this.bt_plan.Location = new System.Drawing.Point(327, 703);
             this.bt_plan.Name = "bt_plan";
             this.bt_plan.Size = new System.Drawing.Size(64, 23);
             this.bt_plan.TabIndex = 8;
@@ -275,6 +276,16 @@ namespace Counter_v1
             this.bt_refresh.UseVisualStyleBackColor = false;
             this.bt_refresh.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // bt_delData
+            // 
+            this.bt_delData.Location = new System.Drawing.Point(170, 701);
+            this.bt_delData.Name = "bt_delData";
+            this.bt_delData.Size = new System.Drawing.Size(81, 25);
+            this.bt_delData.TabIndex = 7;
+            this.bt_delData.Text = "Delete_data";
+            this.bt_delData.UseVisualStyleBackColor = true;
+            this.bt_delData.Click += new System.EventHandler(this.button1_Click_2);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -288,6 +299,7 @@ namespace Counter_v1
             this.Controls.Add(this.bt_dlg);
             this.Controls.Add(this.bt_plan);
             this.Controls.Add(this.bt_print);
+            this.Controls.Add(this.bt_delData);
             this.Controls.Add(this.bt_load);
             this.Controls.Add(this.bt_folder);
             this.Controls.Add(this.label3);
@@ -338,6 +350,7 @@ namespace Counter_v1
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button bt_cals;
         private System.Windows.Forms.Button bt_refresh;
+        private System.Windows.Forms.Button bt_delData;
     }
 }
 

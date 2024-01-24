@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -470,21 +471,28 @@ namespace Counter_v1
         //обновить логи
         private void chek_changes()
         {
-
-            DirectoryInfo dirInfo = new DirectoryInfo(fitschDir);
-            var file3 = dirInfo.GetFiles().Where(d => d.Name.Contains("dlgchange.log")).First();
-            DateTime dt = file3.LastWriteTime;
-
-            var dt_last = Properties.Settings.Default.lastChange;
-            if (dt.Date != dt_last.Date)
+            try
             {
-                bt_dlg.BackColor = Color.IndianRed;
-                MessageBox.Show(dt.ToString() + "   " + Properties.Settings.Default.lastChange.ToString());
-            }
+                DirectoryInfo dirInfo = new DirectoryInfo(fitschDir);
+                var file3 = dirInfo.GetFiles().Where(d => d.Name.Contains("dlgchange.log")).First();
+                DateTime dt = file3.LastWriteTime;
 
-            Properties.Settings.Default.lastChange = dt;
-            Properties.Settings.Default.Save();
-            //MessageBox.Show(dt.ToString()+"   "+ Properties.Settings.Default.lastChange.ToString());
+                var dt_last = Properties.Settings.Default.lastChange;
+                if (dt.Date != dt_last.Date)
+                {
+                    bt_dlg.BackColor = Color.IndianRed;
+                    MessageBox.Show(dt.ToString() + "   " + Properties.Settings.Default.lastChange.ToString());
+                }
+
+                Properties.Settings.Default.lastChange = dt;
+                Properties.Settings.Default.Save();
+                //MessageBox.Show(dt.ToString()+"   "+ Properties.Settings.Default.lastChange.ToString());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "нет подключения");
+
+           }
         }
 
     }
